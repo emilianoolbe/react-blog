@@ -1,0 +1,53 @@
+.create{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    text-align: center;
+    width: 60%;
+    height: 80%;
+    padding: 45px;
+    font-weight: lighter;
+    background-color: rgb(76, 75, 73);
+    border-radius: 8px;
+    color: rgb(163, 240, 163);
+}
+
+form input[type='text']{
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    width: 100%;
+    border: none;
+    background: rgb(163, 240, 163);
+    border-radius: 6px;
+    padding: 5px;
+
+}
+form input[type='file']{
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    width: 100%;
+    border: none;
+    padding: 5px;
+}
+
+form input[type='submit']{
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+    width: 30%;
+    border: 4px solid gainsboro;
+    padding: 5px;
+    background-color: rgb(163, 240, 163);;
+    border-radius: 6px;
+    transition: all 300ms;
+}
+form input[type='submit']:hover{
+  background-color: rgb(120, 235, 189);
+  color: rgb(41, 40, 40);
+  border-radius: 0px;
+  border: 3px solid  azure;
+  font-weight: bold;
+  transform: scale(1.2, 1.2);
+}

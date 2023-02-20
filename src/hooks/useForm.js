@@ -1,15 +1,15 @@
-import React, {useState} from 'react'
+import { useState } from "react";
 
 export const useForm = (obj = {}) => {
  
     //Estados
-    const [formulario, setFormulario] = useState({obj});
+    const [formulario, setFormulario] = useState(obj);
 
     //Métodos
-    const serializarFormulario = (formulario) => {
+    const serializarFormulario = (formularios) => {
 
         //Obtengo el formulario
-        const formData = new FormData(formulario);
+        const formData = new FormData(formularios);
 
         //Objeto nuevo 
         const objetoCompleto = {};
@@ -17,7 +17,7 @@ export const useForm = (obj = {}) => {
         //Itero sobre el formData desestructurando [name] del input y su value
         for (let [name, value] of formData){
             objetoCompleto[name] = value;
-        }
+        };
 
         return objetoCompleto;
     };
@@ -32,17 +32,12 @@ export const useForm = (obj = {}) => {
 
     //Actulizo el estado
 
-    const actulizado = e => {
+    const actualizado = e => {
         setFormulario({
             ...formulario,
             [e.target.name] : e.target.value
         });
     };
 
-    
-    return(
-        enviado,
-        actulizado,
-        formulario
-    );
+    return{formulario, actualizado};
 };

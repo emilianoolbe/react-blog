@@ -1,33 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { global } from "../../../helpers/global";
-import { useAjax } from "../../../hooks/useAjax";
+import { ajax } from "../../../helpers/ajax";
 import { Loading } from "../loading/Loading";
 import "./articles.css";
 
 export const Articles = () => {
+
   //Estados
+  const [articles, setArticles] = useState([]);
+  const [errors, setErrors] = useState('');
+  const [loading, setloading] = useState([]);
   const [url, setUrl] = useState(`${global.url}article/all`);
 
-  //Hooks
-  const { datos, cargando, errores } = useAjax(url, "GET");
+  //Efectos
+  useEffect(() => {
+    getData();
+  }, [url])
+
+  useEffect(() => {
+    getData();
+  }, [articles])
+
+  //Helpers && Métodos 
+  const getData = async () => {
+    
+    const { data, loading } = await ajax(url, "GET");
+
+    if (data.status == 'success') {
+      setArticles(data.articles);
+      setloading(loading);
+    }else{
+      setErrors(`Error en la conexión con la API - ${data.message}`);
+    };
+  };
+
+  const deleteArticle = async (id) => {
+
+    //Seteo URl
+    const urlDelete = (`${global.url}article/${id}`)
+
+    //Eliminar de la db el elemento con el ID
+    const {data} = await ajax(urlDelete, 'DELETE')
+    
+    if (data.status === 'sucess') {
+      let {data} = await ajax(url, 'GET');
+      let newData = data.filter(article => article._id !== id);
+      setArticles(newData);
+    }
+  }
 
   //JSX
-  if (errores && errores !== "") {
+  if (errors && errors !== "") {
     return (
       <div className="articles">
-        <h3>{errores}</h3>
+        <h3>{errors}</h3>
       </div>
     );
-  }else if (cargando && errores === "") {
+  }else if (loading && errors === "") {
     return (
       <div>
         <Loading />
       </div>
     );
-  }else if (datos && errores === "" && cargando === false) {
+  }else if (articles && errors === "" && loading === false) {
     return (
       <div className="articles">
-        {datos.articles.map((article, i) => {
+        {articles.map((article, i) => {
+  
           return (
             <article className="article-item" key={i}>
               <div className="mask">
@@ -42,7 +81,7 @@ export const Articles = () => {
                   Article description: {article.content}
                 </p>
                 <button className="button">Edit</button>
-                <button className="button">Delete</button>
+                <button className="button" onClick={() => {deleteArticle(article._id)}}>Delete</button>
               </div>
             </article>
           );

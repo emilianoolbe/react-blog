@@ -51,9 +51,7 @@ export const Create = () => {
     return (
       <div className="create">
         <h2>Add new article </h2>
-        <pre>{JSON.stringify(formulario)}</pre>
-
-        {resultado ? (
+           {resultado ? (
           <h2 className="success">¡Artículo guardado con éxito!</h2>
         ) : (
           ""

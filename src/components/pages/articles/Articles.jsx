@@ -43,9 +43,7 @@ export const Articles = () => {
     const {data} = await ajax(urlDelete, 'DELETE')
     
     if (data.status === 'sucess') {
-      let {data} = await ajax(url, 'GET');
-      let newData = data.filter(article => article._id !== id);
-      setArticles(newData);
+      getData();
     }
   }
 

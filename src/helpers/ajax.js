@@ -1,4 +1,4 @@
-export const ajax = async (url, methodCom, objetToSave = '') => {
+export const ajax = async (url, methodCom, objetToSave = '', archives = false) => {
 
   //Petición ajax
 
@@ -17,6 +17,12 @@ export const ajax = async (url, methodCom, objetToSave = '') => {
 
   if (methodCom == 'POST' || methodCom == 'PUT') {
 
+    if (archives) {
+      options = {
+        method: methodCom,
+        body: objetToSave, 
+      };
+    };
     options = {
       method: methodCom,
       body: JSON.stringify(objetToSave),

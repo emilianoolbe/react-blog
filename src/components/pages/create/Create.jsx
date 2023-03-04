@@ -23,44 +23,52 @@ export const Create = () => {
     let nuevoArticulo = formulario;
 
     //Guardado en backend de la información  Hooks
-    const { data, loading } = await ajax(
+    const { data } = await ajax(
       `${global.url}article/create`,
       "POST",
       nuevoArticulo
     );
 
-    //Resultados de la petición
+    //Resultados de la petición + subida de IMG
     if (data.status === "success") {
+      
       setResultado(true);
       setloading(false);
+
+      //Recupero el input de la img
+      const fileInput = document.querySelector('#file');
+     
+      //Agrego la imagen al formData
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+      
+      //Hago la petición AJAX - body sin el stringify porque es un archivo
+      const subidaFile = ajax(`${global.url}article/file/${data.articles._id}`, 'POST', formData, true)
       
     } else if (data.status === "Error") {
       setResultado(false);
       setloading(false);
-    }
+    };
   };
 
+
   //JSX
-  if (loading && loading === true) {
+
     return (
-      <div>
-        <Loading />
-      </div>
-    );
-  } else {
-    return (
+      <>
+      
+      {
+        loading === true ?  <Loading  /> : ''
+      }
+
       <div className="create">
         <h2>Add new article </h2>
-           {resultado ? (
-          <h2 className="success">¡Artículo guardado con éxito!</h2>
-        ) : (
-          ""
-        )}
-        {resultado && resultado == false ? (
-          <h2 className="success"> No se ha podido guardar el artículo</h2>
-        ) : (
-          ""
-        )}
+          {
+            resultado === true ? ( <h2 className="success">¡Artículo guardado con éxito!</h2>) : ''
+          }
+          {
+            resultado === false ? (<h2 className="success"> Error al guardar el artículo</h2>) : ''
+          }
         <form onSubmit={storeArticle}>
           <input
             onChange={actualizado}
@@ -76,10 +84,11 @@ export const Create = () => {
             id="content"
             placeholder="Content"
           />
-          <input type="file" name="file" id="file" />
+          <input type='file' name="file" id="file" />
           <input type="submit" value="Guardar" />
         </form>
       </div>
+      </>
     );
-  }
+  
 };

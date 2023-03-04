@@ -1,4 +1,4 @@
-export const ajax = async (url, methodCom, objetToSave = '') => {
+export const ajax = async (url, methodCom, objetToSave = '', file = false) => {
 
   //Petición ajax
 
@@ -17,20 +17,31 @@ export const ajax = async (url, methodCom, objetToSave = '') => {
 
   if (methodCom == 'POST' || methodCom == 'PUT') {
 
-    options = {
-      method: methodCom,
-      body: JSON.stringify(objetToSave),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
+    if (file) {
+      options = {
+        method: methodCom,
+        body: objetToSave,
+      };
+    }else{
+      
+      options = {
+        method: methodCom,
+        body: JSON.stringify(objetToSave),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      };
+    }
   };
 
   //Asigno al array data la respuesta ajax
-  const peticion = await fetch(url, options);
-  const data = await peticion.json();
 
-  //Ya no esta cargando, pasa a false
-  loading = false;
-  return { data, loading };
+    const peticion = await fetch(url, options);
+    const data = await peticion.json();
+    //Ya no esta cargando, pasa a false
+    loading = false;
+    return { data, loading };
+
+
+
 };

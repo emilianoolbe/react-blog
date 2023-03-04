@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 export const ajax = async (url, methodCom, objetToSave = '', file = false) => {
+=======
+export const ajax = async (url, methodCom, objetToSave = '', archives = false) => {
+>>>>>>> 73127dd44e167b53205d68a81bcff23dfbd1e548
 
   //Petición ajax
 
@@ -17,6 +21,7 @@ export const ajax = async (url, methodCom, objetToSave = '', file = false) => {
 
   if (methodCom == 'POST' || methodCom == 'PUT') {
 
+<<<<<<< HEAD
     if (file) {
       options = {
         method: methodCom,
@@ -32,6 +37,21 @@ export const ajax = async (url, methodCom, objetToSave = '', file = false) => {
         }
       };
     }
+=======
+    if (archives) {
+      options = {
+        method: methodCom,
+        body: objetToSave, 
+      };
+    };
+    options = {
+      method: methodCom,
+      body: JSON.stringify(objetToSave),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+>>>>>>> 73127dd44e167b53205d68a81bcff23dfbd1e548
   };
 
   //Asigno al array data la respuesta ajax

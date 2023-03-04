@@ -29,22 +29,29 @@ export const Create = () => {
       nuevoArticulo
     );
 
-    //Resultados de la petición + subida de IMG
+    // ---> Resultados de la petición <---
+
     if (data.status === "success") {
       
       setResultado(true);
       setloading(false);
 
-      //Recupero el input de la img
+      // --> Guardado de img <--
+
+      //Campturo el input 
       const fileInput = document.querySelector('#file');
-     
-      //Agrego la imagen al formData
+      
+      //Agrego al formData la img con apped
       const formData = new FormData();
-      formData.append('file', fileInput.files[0]);
-      
-      //Hago la petición AJAX - body sin el stringify porque es un archivo
-      const subidaFile = ajax(`${global.url}article/file/${data.articles._id}`, 'POST', formData, true)
-      
+      formData.append('file', fileInput.files[0]); // Append recibe el name del input y el valor
+
+      //Petición ajax
+      const upload = await ajax(`${global.url}article/file/${data.article._id}`, 'POST', formData, true)
+
+      console.log(upload.data);
+
+
+
     } else if (data.status === "Error") {
       setResultado(false);
       setloading(false);
@@ -53,7 +60,6 @@ export const Create = () => {
 
 
   //JSX
-
     return (
       <>
       
@@ -64,10 +70,13 @@ export const Create = () => {
       <div className="create">
         <h2>Add new article </h2>
           {
-            resultado === true ? ( <h2 className="success">¡Artículo guardado con éxito!</h2>) : ''
+            resultado ? (<h2 className="success">¡Artículo guardado con éxito!</h2>) : "" 
           }
           {
-            resultado === false ? (<h2 className="success"> Error al guardar el artículo</h2>) : ''
+            resultado && resultado === false ? (<h2 className="success"> No se ha podido guardar el artículo</h2>) : ""
+          }
+          {
+            loading && loading === true ? <div> <Loading /> </div> : ''
           }
         <form onSubmit={storeArticle}>
           <input
@@ -90,5 +99,4 @@ export const Create = () => {
       </div>
       </>
     );
-  
 };

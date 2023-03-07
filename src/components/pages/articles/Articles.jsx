@@ -68,10 +68,13 @@ export const Articles = () => {
           return (
             <article className="article-item" key={i}>
               <div className="mask">
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
-                  alt=""
-                />
+                {
+                  article.image !== 'default.png' && <img src={`${global.url}article/file/${article.image}`} />
+                }
+                {
+                  article.image === 'default.png' && <img src="https://miro.medium.com/v2/resize:fit:400/1*PWe4DmAE78BLD4SHpXizMw.png" />
+                }
+                
               </div>
               <div className="datos">
                 <h3 className="Title">Article title: {article.title}</h3>

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-export const ajax = async (url, methodCom, objetToSave = '', file = false) => {
-=======
 export const ajax = async (url, methodCom, objetToSave = '', archives = false) => {
->>>>>>> 73127dd44e167b53205d68a81bcff23dfbd1e548
 
   //Petición ajax
 
@@ -21,12 +17,12 @@ export const ajax = async (url, methodCom, objetToSave = '', archives = false) =
 
   if (methodCom == 'POST' || methodCom == 'PUT') {
 
-<<<<<<< HEAD
-    if (file) {
+    if (archives) {
       options = {
         method: methodCom,
-        body: objetToSave,
+        body: objetToSave, 
       };
+
     }else{
       
       options = {
@@ -36,22 +32,7 @@ export const ajax = async (url, methodCom, objetToSave = '', archives = false) =
           "Content-Type": "application/json"
         }
       };
-    }
-=======
-    if (archives) {
-      options = {
-        method: methodCom,
-        body: objetToSave, 
-      };
     };
-    options = {
-      method: methodCom,
-      body: JSON.stringify(objetToSave),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
->>>>>>> 73127dd44e167b53205d68a81bcff23dfbd1e548
   };
 
   //Asigno al array data la respuesta ajax
@@ -61,7 +42,4 @@ export const ajax = async (url, methodCom, objetToSave = '', archives = false) =
     //Ya no esta cargando, pasa a false
     loading = false;
     return { data, loading };
-
-
-
 };

@@ -7,7 +7,7 @@ import "./create.css";
 
 export const Create = () => {
   //Estados
-  const [resultado, setResultado] = useState(false);
+  const [resultado, setResultado] = useState('');
   const [loading, setloading] = useState("");
 
   //Hooks
@@ -33,51 +33,50 @@ export const Create = () => {
 
     if (data.status === "success") {
       
-      setResultado(true);
       setloading(false);
+      setResultado(true)
 
       // --> Guardado de img <--
 
       //Campturo el input 
       const fileInput = document.querySelector('#file');
-      
-      //Agrego al formData la img con apped
+    
+      //Agrego al formData la img con append
       const formData = new FormData();
-      formData.append('file', fileInput.files[0]); // Append recibe el name del input y el valor
+      formData.append('file2', fileInput.files[0]); // Append recibe el name del input y el valor
 
       //Petición ajax
-      const upload = await ajax(`${global.url}article/file/${data.article._id}`, 'POST', formData, true)
+      const upload = await ajax(`${global.url}article/file/${data.article._id}`, 'POST', formData, true);
 
-      console.log(upload.data);
+      if (upload.data.status === 'Error') {
+        setResultado('Las extensiones aceptadas son .png .gif .jpg .jpeg');
+      };
 
-
-
-    } else if (data.status === "Error") {
+    }else {
       setResultado(false);
       setloading(false);
     };
   };
 
-
   //JSX
     return (
       <>
-      
-      {
-        loading === true ?  <Loading  /> : ''
-      }
-
       <div className="create">
+
         <h2>Add new article </h2>
           {
-            resultado ? (<h2 className="success">¡Artículo guardado con éxito!</h2>) : "" 
+            resultado === false ? (<h2 className="success"> No se ha podido guardar el artículo :| </h2>) : ""
           }
           {
-            resultado && resultado === false ? (<h2 className="success"> No se ha podido guardar el artículo</h2>) : ""
+            resultado === true ? (<h2 className="success">¡Artículo guardado con éxito!</h2>) : "" 
           }
           {
-            loading && loading === true ? <div> <Loading /> </div> : ''
+            resultado === 'Las extensiones aceptadas son .png .gif .jpg .jpeg' ? (<h2 className="success">¡Artículo guardado con éxito! Pero hubo un error al cargar la imagen</h2>) : "" 
           }
+          {
+            loading === true ? <div> <Loading /> </div> : ''
+          }
+
         <form onSubmit={storeArticle}>
           <input
             onChange={actualizado}
@@ -93,8 +92,16 @@ export const Create = () => {
             id="content"
             placeholder="Content"
           />
-          <input type='file' name="file" id="file" />
-          <input type="submit" value="Guardar" />
+          <input 
+            type='file' 
+            name="file2" 
+            id="file" 
+          />
+          <input 
+            type="submit" 
+            value="Guardar" 
+          />
+
         </form>
       </div>
       </>

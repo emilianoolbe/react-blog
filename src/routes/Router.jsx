@@ -3,6 +3,7 @@ import {Routes, Route, BrowserRouter} from 'react-router-dom';
 import { Footer } from '../components/layout/Footer';
 import { Header } from '../components/layout/Header';
 import { Nav } from '../components/layout/Nav';
+import { Sidebar } from '../components/layout/Sidebar';
 import { Article } from '../components/pages/article/Article';
 import { Articles } from '../components/pages/articles/Articles';
 import { Create } from '../components/pages/create/Create';
@@ -29,6 +30,7 @@ export const Router = () => {
                   <Route path='/home' exact={true} element={<Home />}/>
                   <Route path='/articles' exact={true} element={<Articles />}/>
                   <Route path='/create' exact={true} element={<Create />}/>
+                  <Route path='/search/:search' exact={true} element={<Search />} />
                   <Route path='*' element={<Error404 />}/>
 
             </Routes>
@@ -37,7 +39,7 @@ export const Router = () => {
 
           {/* Barra lateral */}
 
-            <Search />
+            <Sidebar />
 
           {/* Pie de página */}
           <Footer />

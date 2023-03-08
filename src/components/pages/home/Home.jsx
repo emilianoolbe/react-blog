@@ -31,7 +31,7 @@ export const Home = () => {
             </li>
           </ol>
       </div>
-      <button><Link to='/articles'>Ver Artículos</Link></button>
+      <button><Link to='/articles'>View Articles</Link></button>
     </div>
   )
 }

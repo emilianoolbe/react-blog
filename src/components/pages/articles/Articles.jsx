@@ -34,17 +34,32 @@ export const Articles = () => {
     };
   };
 
+  
+  //Eliminar de la db el elemento con el ID
   const deleteArticle = async (id) => {
 
     //Seteo URl
     const urlDelete = (`${global.url}article/${id}`)
 
-    //Eliminar de la db el elemento con el ID
     const {data} = await ajax(urlDelete, 'DELETE')
     
     if (data.status === 'sucess') {
       getData();
-    }
+    };
+  };
+
+  //Edición del artículo en la DB
+  const editArticle = async (id) => {
+    
+    //Obtengo el artículo - filtro por id los que tengo en el estado
+    
+    let articleToEdit = articles.find(element => element._id === id)
+
+    //Edito el artículo en la db - petición ajax
+
+    //Actualizo el estado
+
+   
   }
 
   //JSX
@@ -81,7 +96,7 @@ export const Articles = () => {
                 <p className="description">
                   Article description: {article.content}
                 </p>
-                <button className="button">Edit</button>
+                <button className="button" onClick={() => {editArticle(article._id)}} >Edit</button>
                 <button className="button" onClick={() => {deleteArticle(article._id)}}>Delete</button>
               </div>
             </article>

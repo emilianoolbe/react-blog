@@ -99,7 +99,7 @@ export const Create = () => {
           />
           <input 
             type="submit" 
-            value="Guardar" 
+            value="Save" 
           />
 
         </form>

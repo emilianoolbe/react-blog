@@ -31,6 +31,7 @@ export const Router = () => {
                   <Route path='/articles' exact={true} element={<Articles />}/>
                   <Route path='/create' exact={true} element={<Create />}/>
                   <Route path='/search/:search' exact={true} element={<Search />} />
+                  <Route path='/article/:id' exact={true} element= {<Article />} />
                   <Route path='*' element={<Error404 />}/>
 
             </Routes>

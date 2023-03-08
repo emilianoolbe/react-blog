@@ -3,6 +3,7 @@ import { global } from "../../../helpers/global";
 import { ajax } from "../../../helpers/ajax";
 import { Loading } from "../loading/Loading";
 import "./articles.css";
+import { Link } from "react-router-dom";
 
 export const Articles = () => {
 
@@ -92,7 +93,11 @@ export const Articles = () => {
                 
               </div>
               <div className="datos">
-                <h3 className="Title">Article title: {article.title}</h3>
+
+                <Link to={`/article/${article._id}`}>
+                  <h3 className="Title">Article title: {article.title}</h3>
+                </Link>
+                
                 <p className="description">
                   Article description: {article.content}
                 </p>

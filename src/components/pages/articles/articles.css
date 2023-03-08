@@ -19,6 +19,15 @@
     align-items: center;
 }
 
+a {
+    text-decoration: none;
+    color: white;
+    transition: all 300ms
+}
+a:hover{
+    color: #ffeb3b;
+}
+
 .button{
     display: block;
     margin: 0 auto;

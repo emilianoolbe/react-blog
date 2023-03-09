@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { global } from "../../../helpers/global";
 import { ajax } from "../../../helpers/ajax";
 import { Loading } from "../loading/Loading";
-import "./articles.css";
 import { Link } from "react-router-dom";
+import "./articles.css";
 
 export const Articles = () => {
 
@@ -16,11 +16,7 @@ export const Articles = () => {
   //Efectos
   useEffect(() => {
     getData();
-  }, [url])
-
-  useEffect(() => {
-    getData();
-  }, [articles])
+  }, [])
 
   //Helpers && Métodos 
   const getData = async () => {
@@ -44,24 +40,14 @@ export const Articles = () => {
 
     const {data} = await ajax(urlDelete, 'DELETE')
     
-    if (data.status === 'sucess') {
-      getData();
+    //Vuelvo a actualizar el estado de artículos al eliminar uno
+    if (data.status === 'success') {
+     
+      //filtro elementos
+      let updatedArticles = articles.filter(element => element._id !== id);
+      setArticles(updatedArticles);
     };
   };
-
-  //Edición del artículo en la DB
-  const editArticle = async (id) => {
-    
-    //Obtengo el artículo - filtro por id los que tengo en el estado
-    
-    let articleToEdit = articles.find(element => element._id === id)
-
-    //Edito el artículo en la db - petición ajax
-
-    //Actualizo el estado
-
-   
-  }
 
   //JSX
   if (errors && errors !== "") {
@@ -101,7 +87,11 @@ export const Articles = () => {
                 <p className="description">
                   Article description: {article.content}
                 </p>
-                <button className="button" onClick={() => {editArticle(article._id)}} >Edit</button>
+
+                <Link to={`/edit/${article._id}`}>
+                  <button className="button" > Edit</button>
+                </Link> 
+
                 <button className="button" onClick={() => {deleteArticle(article._id)}}>Delete</button>
               </div>
             </article>

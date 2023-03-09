@@ -3,16 +3,22 @@ import { global } from "../../../helpers/global";
 import { ajax } from "../../../helpers/ajax";
 import { useForm } from "../../../hooks/useForm";
 import { Loading } from "../loading/Loading";
-import "./create.css";
+import { useParams } from "react-router-dom";
+import "./edit.css";
 
-export const Create = () => {
+
+export const Edit = () => {
   //Estados
   const [resultado, setResultado] = useState('');
-  const [loading, setloading] = useState("");
+  const [loading, setloading] = useState('');
+
+  //UseParams
+  const params = useParams();
 
   //Hooks
   const { formulario, actualizado } = useForm({});
 
+  //Métodos
   const storeArticle = async (e) => {
     e.preventDefault();
 
@@ -23,11 +29,7 @@ export const Create = () => {
     let nuevoArticulo = formulario;
 
     //Guardado en backend de la información  Hooks
-    const { data } = await ajax(
-      `${global.url}article/create`,
-      "POST",
-      nuevoArticulo
-    );
+    const { data } = await ajax(`${global.url}article/edit/${params.id}`, 'PUT', nuevoArticulo);
 
     // ---> Resultados de la petición <---
 
@@ -47,14 +49,13 @@ export const Create = () => {
 
       if (fileInput.files[0]) {
         //Petición ajax
-        const upload = await ajax(`${global.url}article/file/${data.article._id}`, 'POST', formData, true);
+        const upload = await ajax(`${global.url}article/file/${data.articleUpdated._id}`, 'POST', formData, true);
         
         if (upload.data.status === 'Error') {
           setResultado(upload.data.message);
         };
       };
 
-    
     }else {
       setResultado(false);
       setloading(false);
@@ -66,15 +67,15 @@ export const Create = () => {
       <>
       <div className="create">
 
-        <h2>Add new article </h2>
+        <h2>Edit article</h2>
           {
-            resultado === false ? (<h2 className="success"> No se ha podido guardar el artículo :| </h2>) : ""
+            resultado === false ? (<h2 className="success"> No se ha podido actualizar el artículo :| </h2>) : ""
           }
           {
-            resultado === true ? (<h2 className="success">¡Artículo guardado con éxito!</h2>) : "" 
+            resultado === true ? (<h2 className="success">¡Artículo editado con éxito!</h2>) : "" 
           }
           {
-            resultado === 'Las extensiones aceptadas son .png .gif .jpg .jpeg' ? (<h2 className="success">¡Artículo guardado con éxito! Pero hubo un error al cargar la imagen</h2>) : "" 
+            resultado === 'Las extensiones aceptadas son .png .gif .jpg .jpeg' ? (<h2 className="success">{resultado}</h2>) : "" 
           }
           {
             loading === true ? <div> <Loading /> </div> : ''
@@ -109,4 +110,4 @@ export const Create = () => {
       </div>
       </>
     );
-};
+}

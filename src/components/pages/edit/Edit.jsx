@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { global } from "../../../helpers/global";
 import { ajax } from "../../../helpers/ajax";
 import { useForm } from "../../../hooks/useForm";
@@ -11,14 +11,33 @@ export const Edit = () => {
   //Estados
   const [resultado, setResultado] = useState('');
   const [loading, setloading] = useState('');
+  const [article, setArticle] = useState({});
 
   //UseParams
   const params = useParams();
 
+  //Efectos
+  useEffect(() => {
+    getData();
+  },[])
+
   //Hooks
   const { formulario, actualizado } = useForm({});
 
-  //Métodos
+
+//Helpers && Métodos 
+  const getData = async () => {
+    
+    const { data } = await ajax(`${global.url}article/${params.id}`, "GET");
+  
+    if (data.status == 'success') {
+      setArticle(data.article);
+      setloading(false);
+    }else{
+      setErrors(`Error en la conexión con la API - ${data.message}`);
+    };
+  };
+
   const storeArticle = async (e) => {
     e.preventDefault();
 
@@ -67,7 +86,7 @@ export const Edit = () => {
       <>
       <div className="create">
 
-        <h2>Edit article</h2>
+        <h2>Edit article: {article.title}</h2>
           {
             resultado === false ? (<h2 className="success"> No se ha podido actualizar el artículo :| </h2>) : ""
           }
@@ -80,14 +99,16 @@ export const Edit = () => {
           {
             loading === true ? <div> <Loading /> </div> : ''
           }
-
+        
         <form onSubmit={storeArticle}>
+
           <input
             onChange={actualizado}
             type="text"
             name="title"
             id="title"
             placeholder="Title"
+            value={article.title}
           />
           <input
             onChange={actualizado}
@@ -95,7 +116,9 @@ export const Edit = () => {
             name="content"
             id="content"
             placeholder="Content"
+            value={article.content}
           />
+   
           <input 
             type='file' 
             name="file2" 
@@ -105,6 +128,8 @@ export const Edit = () => {
             type="submit" 
             value="Save" 
           />
+
+          
 
         </form>
       </div>

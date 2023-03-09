@@ -58,3 +58,9 @@ form input[type='submit']:hover{
     font-weight: bold;
     text-align: center;
 }
+
+img{
+    display: block;
+    width: 120px;
+    margin: 5px 0px 5px 0px;
+}

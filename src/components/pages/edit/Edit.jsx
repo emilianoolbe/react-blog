@@ -8,20 +8,20 @@ import "./edit.css";
 
 
 export const Edit = () => {
-  //Estados
+//Estados
   const [resultado, setResultado] = useState('');
   const [loading, setloading] = useState('');
   const [article, setArticle] = useState({});
 
-  //UseParams
+//UseParams
   const params = useParams();
 
-  //Efectos
+//Efectos
   useEffect(() => {
     getData();
   },[])
 
-  //Hooks
+//Hooks
   const { formulario, actualizado } = useForm({});
 
 
@@ -38,17 +38,17 @@ export const Edit = () => {
     };
   };
 
-  const storeArticle = async (e) => {
+  const editArticle = async (e) => {
     e.preventDefault();
 
     //Carga del loading
     setloading(true);
 
     //Obtengo la información del formulario
-    let nuevoArticulo = formulario;
+    let newArticle = formulario;
 
     //Guardado en backend de la información  Hooks
-    const { data } = await ajax(`${global.url}article/edit/${params.id}`, 'PUT', nuevoArticulo);
+    const { data } = await ajax(`${global.url}article/edit/${params.id}`, 'PUT', newArticle);
 
     // ---> Resultados de la petición <---
 
@@ -100,7 +100,7 @@ export const Edit = () => {
             loading === true ? <div> <Loading /> </div> : ''
           }
         
-        <form onSubmit={storeArticle}>
+        <form onSubmit={editArticle}>
 
           <input
             onChange={actualizado}
@@ -108,7 +108,7 @@ export const Edit = () => {
             name="title"
             id="title"
             placeholder="Title"
-            value={article.title}
+            defaultValue={article.title}
           />
           <input
             onChange={actualizado}
@@ -116,7 +116,7 @@ export const Edit = () => {
             name="content"
             id="content"
             placeholder="Content"
-            value={article.content}
+            defaultValue={article.content}
           />
    
           <input 
@@ -128,9 +128,6 @@ export const Edit = () => {
             type="submit" 
             value="Save" 
           />
-
-          
-
         </form>
       </div>
       </>

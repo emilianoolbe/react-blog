@@ -17,7 +17,8 @@ export const Article = () => {
   //Efectos
   useEffect(() => {
     getData();
-  }, [])
+  }, []);
+
 
   //Métdodos
   const getData = async () => {
@@ -48,17 +49,17 @@ export const Article = () => {
         <Loading />
       </>
     )
-  }else if (article && loading === false && errors === ''){
+  }else if (article  && loading === false && errors === ''){
     return (
       <>
       <div className="article">
         <div className="maskarticle">
-          {article.image !== "default.png" && (
-            <img src={`${global.url}article/file/${article.image}`} />
-          )}
-          {article.image === "default.png" && (
-            <img src="https://miro.medium.com/v2/resize:fit:400/1*PWe4DmAE78BLD4SHpXizMw.png" />
-          )}
+          {
+            article.image ? article.image !== "default.png" && (<img src={`${global.url}article/file/${article.image}`} />) : ''
+          }
+          {
+            article.image ? article.image === "default.png" && (<img src="https://miro.medium.com/v2/resize:fit:400/1*PWe4DmAE78BLD4SHpXizMw.png" />) : ''
+          }
         </div>
         <h1>Title: {article.title}</h1>
         <h3>Description: {article.content}</h3>
